@@ -17,6 +17,7 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const showImages = (images) => {
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
+  
   // show gallery title
   galleryHeader.style.display = 'flex';
   images.forEach(image => {
@@ -38,14 +39,17 @@ const getImages = (query) => {
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
+ //console.log(selectItem);
   let element = event.target;
-  element.classList.add('added');
+  element.classList.toggle('added');
  
   let item = sliders.indexOf(img);
+  
   if (item === -1) {
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+   // alert('Hey, Already added !')
+   sliders.splice(item, 1);
   }
 }
 var timer
@@ -66,9 +70,17 @@ const createSlider = () => {
 
   sliderContainer.appendChild(prevNext)
   document.querySelector('.main').style.display = 'block';
-  // hide image aria
+  // hide image ariaduration
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('duration').value || 1000;
+  
+  
+    const duration = document.getElementById('duration').value||1000;
+    if(duration<0){
+      alert("wrong");
+      return ;
+    }
+  
+  
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -119,5 +131,17 @@ searchBtn.addEventListener('click', function () {
 })
 
 sliderBtn.addEventListener('click', function () {
-  createSlider()
+  createSlider();
 })
+document.getElementById("search")
+.addEventListener("keypress", function(event) {
+    if (event.key === 'Enter'){
+        document.getElementById("search-btn").click();
+}
+});
+const toggleSpinner = () =>{
+  const spinner = document.getElementById('loading-spinner');
+ const imges=document.getElementById('sliderContainer');
+     spinner.classList.toggle('d-none');
+     imges.classList.toggle('d-none');   
+}

@@ -30,11 +30,14 @@ const showImages = (images) => {
 }
 
 const getImages = (query) => {
+  toggleSpinner();
   // fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type="photo"&pretty=true`)
+  
     .then(response => response.json())
     .then(data => showImages(data.hits))
     .catch(err => console.log(err))
+   
 }
 
 let slideIndex = 0;
@@ -67,8 +70,9 @@ const createSlider = () => {
   <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
   <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
   `;
-
+ 
   sliderContainer.appendChild(prevNext)
+  toggleSpinner();
   document.querySelector('.main').style.display = 'block';
   // hide image ariaduration
   imagesArea.style.display = 'none';
@@ -137,11 +141,15 @@ document.getElementById("search")
 .addEventListener("keypress", function(event) {
     if (event.key === 'Enter'){
         document.getElementById("search-btn").click();
+        
 }
 });
-const toggleSpinner = () =>{
-  const spinner = document.getElementById('loading-spinner');
- const imges=document.getElementById('sliderContainer');
-     spinner.classList.toggle('d-none');
-     imges.classList.toggle('d-none');   
+//load spinner
+const toggleSpinner=()=>{
+  const spinner=document.getElementById('loading-spinner');
+  const sliders=document.getElementById('sliders');
+    spinner.classList.toggle('d-none');
+    sliders.classList.toggle('d-none');
+ 
+ 
 }

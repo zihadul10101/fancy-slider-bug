@@ -17,42 +17,43 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 const showImages = (images) => {
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
-  
+
   // show gallery title
   galleryHeader.style.display = 'flex';
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">
+    <button onClick=" getImages ('${image.imageHeight}')">Details</button>
+    `;
     gallery.appendChild(div)
   })
 
 }
-
 const getImages = (query) => {
   toggleSpinner();
   // fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type="photo"&pretty=true`)
-  
+
     .then(response => response.json())
     .then(data => showImages(data.hits))
     .catch(err => console.log(err))
-   
+
 }
 
 let slideIndex = 0;
 const selectItem = (event, img) => {
- //console.log(selectItem);
+  //console.log(selectItem);
   let element = event.target;
   element.classList.toggle('added');
- 
+
   let item = sliders.indexOf(img);
-  
+
   if (item === -1) {
     sliders.push(img);
   } else {
-   // alert('Hey, Already added !')
-   sliders.splice(item, 1);
+    // alert('Hey, Already added !')
+    sliders.splice(item, 1);
   }
 }
 var timer
@@ -70,21 +71,21 @@ const createSlider = () => {
   <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
   <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
   `;
- 
+
   sliderContainer.appendChild(prevNext)
   toggleSpinner();
   document.querySelector('.main').style.display = 'block';
   // hide image ariaduration
   imagesArea.style.display = 'none';
-  
-  
-    const duration = document.getElementById('duration').value||1000;
-    if(duration<0){
-      alert("wrong");
-      return ;
-    }
-  
-  
+
+
+  const duration = document.getElementById('duration').value || 1000;
+  if (duration < 0) {
+    alert("wrong");
+    return;
+  }
+
+
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -138,18 +139,18 @@ sliderBtn.addEventListener('click', function () {
   createSlider();
 })
 document.getElementById("search")
-.addEventListener("keypress", function(event) {
-    if (event.key === 'Enter'){
-        document.getElementById("search-btn").click();
-        
-}
-});
+  .addEventListener("keypress", function (event) {
+    if (event.key === 'Enter') {
+      document.getElementById("search-btn").click();
+
+    }
+  });
 //load spinner
-const toggleSpinner=()=>{
-  const spinner=document.getElementById('loading-spinner');
-  const sliders=document.getElementById('sliders');
-    spinner.classList.toggle('d-none');
-    sliders.classList.toggle('d-none');
- 
- 
+const toggleSpinner = () => {
+  const spinner = document.getElementById('loading-spinner');
+  const sliders = document.getElementById('sliders');
+  spinner.classList.toggle('d-none');
+  sliders.classList.toggle('d-none');
+
+
 }
